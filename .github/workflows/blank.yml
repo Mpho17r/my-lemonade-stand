@@ -1,0 +1,29 @@
+# This is like telling your robot kitchen what to do!
+name: Lemonade Maker
+
+# When should the kitchen start?
+on:
+  push:  # When you put new recipe in your notebook
+    branches: [ main ]
+  pull_request:  # When your friend wants to taste
+    branches: [ main ]
+
+# What jobs should happen?
+jobs:
+  taste-test:
+    runs-on: ubuntu-latest  # Your kitchen robot
+    
+    steps:
+    - name: Get Recipe
+      uses: actions/checkout@v3  # Take recipe from notebook
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4  # Prepare your cooking tools
+      with:
+        python-version: '3.10'
+    
+    - name: Taste Test
+      run: |
+        echo "🧪 Testing if lemonade recipe works!"
+        python app.py <<< "YES"
+        echo "✅ Test passed! Lemonade is yummy!"
