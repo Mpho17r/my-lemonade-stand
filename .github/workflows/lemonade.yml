@@ -1,0 +1,44 @@
+name: Lemonade Maker with Security Guard
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  security-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Get Recipe
+      uses: actions/checkout@v3
+    
+    - name: Check for Bad Ingredients
+      run: |
+        echo "🔍 Looking for bad ingredients..."
+        # Check for passwords in recipe
+        if grep -r "password" .; then
+          echo "❌ FOUND SECRETS! Don't put passwords in recipe!"
+          exit 1
+        fi
+        echo "✅ No secrets found! Safe to cook!"
+  
+  taste-test:
+    runs-on: ubuntu-latest
+    needs: security-check  # Only taste if security check passes!
+    
+    steps:
+    - name: Get Recipe
+      uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    
+    - name: Taste Test
+      run: |
+        echo "🧪 Testing lemonade recipe..."
+        python app.py <<< "YES"
+        echo "✅ Lemonade is perfect!"
