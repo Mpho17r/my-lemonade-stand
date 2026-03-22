@@ -1,5 +1,5 @@
 # This is like your lemonade recipe!
-prinnt("🍋 Welcome to my Lemonade Stand! 🍋")
+print("🍋 Welcome to my Lemonade Stand! 🍋")
 print("Would you like some lemonade?")
 answer = input("Type YES or NO: ")
 
